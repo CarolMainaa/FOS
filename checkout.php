@@ -15,8 +15,13 @@ function function_alert()
     echo "<script>window.location.replace('your_orders.php');</script>";
 }
 
+
+
+
+
 if (empty($_SESSION["user_id"])) {
     header('location:login.php');
+
 } else {
 
 
@@ -24,25 +29,8 @@ if (empty($_SESSION["user_id"])) {
 
         $item_total += ($item["price"] * $item["quantity"]);
 
-        if ($_POST['submit']) {
-
-            $SQL = "insert into users_orders(u_id,title,quantity,price) values('" . $_SESSION["user_id"] . "','" . $item["title"] . "','" . $item["quantity"] . "','" . $item["price"] . "')";
-
-            mysqli_query($db, $SQL);
-
-
-            unset($_SESSION["cart_item"]);
-            unset($item["title"]);
-            unset($item["quantity"]);
-            unset($item["price"]);
-            $success = "Thank you. Your order has been placed!";
-
-            function_alert();
-
-
-
-        }
     }
+
     ?>
 
 
@@ -177,18 +165,21 @@ if (empty($_SESSION["user_id"])) {
                                                                 class="custom-control-description">Cash on Delivery</span>
                                                         </label>
                                                     </li>
-                                                    <label class="custom-control custom-radio  m-b-10">
-                                                        <input name="mod" type="radio" value="mpesa"
-                                                            class="custom-control-input"> <span
-                                                            class="custom-control-indicator"></span> <span
-                                                            class="custom-control-description"> Mpesa <img
-                                                                src="images/" alt="" width="90"></span> </label>
+                                                    <li>
+                                                        <label class="custom-control custom-radio m-b-10">
+                                                            <input name="mod" type="radio" value="mpesa"
+                                                                class="custom-control-input" onclick="redirectToMpesa()">
+                                                            <span class="custom-control-indicator"></span>
+                                                            <span class="custom-control-description"> Mpesa <img
+                                                                    src="images/" alt="" width="90"></span>
+                                                        </label>
+                                                    </li>
 
                                                 </ul>
-                                                <p class="text-xs-center"> <input type="submit"
+                                                <!-- <p class="text-xs-center"> <input type="submit"
                                                         onclick="return confirm('Do you want to confirm the order?');"
                                                         name="submit" class="btn btn-success btn-block" value="Order Now">
-                                                </p>
+                                                </p> -->
                                             </div>
                                 </form>
                             </div>
@@ -198,6 +189,13 @@ if (empty($_SESSION["user_id"])) {
             </div>
             </form>
         </div>
+
+        <script>
+            function redirectToMpesa() {
+                window.location.href = 'mpesa-form.php';
+            }
+        </script>
+
 
         <?php
         include("includes/footer.php")

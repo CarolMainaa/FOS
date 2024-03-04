@@ -1,118 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lipa na mpesa</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link href="" rel="stylesheet" />
-    <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" ">
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-    ></script>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
+<?php
+include("includes/connect.php");
+include_once 'product-action.php';
+error_reporting(0);
+session_start();
 
-      body {
-        background-color: #eaedf4;
-        font-family: "Rubik", sans-serif;
-      }
 
-      .card {
-        width: 310px;
-        border: none;
-        border-radius: 15px;
-      }
+if (empty($_SESSION["user_id"])) {
+    header('location:login.php');
+} else {
 
-      .justify-content-around div {
-        border: none;
-        border-radius: 20px;
-        background: #f3f4f6;
-        padding: 5px 20px 5px;
-        color: #8d9297;
-      }
 
-      .justify-content-around span {
-        font-size: 12px;
-      }
+    foreach ($_SESSION["cart_item"] as $item) {
 
-      .justify-content-around div:hover {
-        background: #545ebd;
-        color: #fff;
-        cursor: pointer;
-      }
+        $item_total += ($item["price"] * $item["quantity"]);
+    }
+    
+    ?>
 
-      .justify-content-around div:nth-child(1) {
-        background: #545ebd;
-        color: #fff;
-      }
 
-      span.mt-0 {
-        color: #8d9297;
-        font-size: 12px;
-      }
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="#">
+        <title>Checkout</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/animsition.min.css" rel="stylesheet">
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
 
-      h6 {
-        font-size: 15px;
-      }
-      .mpesa {
-        background-color: green !important;
-      }
+    <body>
 
-      img {
-        border-radius: 15px;
-      }
-    </style>
-  </head>
-  <body oncontextmenu="return false" class="snippet-body">
-    <div class="container d-flex justify-content-center">
-      <div class="card mt-5 px-3 py-4">
-        <div class="d-flex flex-row justify-content-around">
-          <div class="mpesa"><span>Mpesa </span></div>
-          <div><span>Paypal</span></div>
-          <div><span>Card</span></div>
-        </div>
-        <div class="media mt-4 pl-2">
-          <img src="images/mpesa.png" class="mr-3" height="75" />
-          <div class="media-body">
-            <h6 class="mt-1">Enter Amount & Number</h6>
-          </div>
-        </div>
-        <div class="media mt-3 pl-2">
-                          <!--bs5 input-->
+        <div class="site-wrapper">
+            <header id="header" class="header-scroll top-header headrom">
+                <nav class="navbar navbar-dark">
+                    <div class="container">
+                        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
+                            data-target="#mainNavbarCollapse">&#9776;</button>
+                        <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/foslogo.png" alt="">
+                        </a>
+                        <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
+                                            class="sr-only">(current)</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
+                                            class="sr-only"></span></a> </li>
 
-            <form class="row g-3" action="./stk_initiate.php" method="POST">
-            
-                <div class="col-12">
-                  <label for="inputAddress" class="form-label">Amount</label>
-                  <input type="text" class="form-control" name="amount" placeholder="Enter Amount">
+                                <?php
+                                if (empty($_SESSION["user_id"])) {
+                                    echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
+                                } else {
+
+
+                                    echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
+                                    echo '<li class="nav-item"><a href="LogOut.php" class="nav-link active">LogOut</a> </li>';
+                                }
+
+                                ?>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="page-wrapper">
+                <div class="top-links">
+                    <div class="container">
+                        <ul class="row links">
+
+                            <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose
+                                    Restaurant</a></li>
+                            <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Pick Your favorite food</a>
+                            </li>
+                            <li class="col-xs-12 col-sm-4 link-item active"><span>3</span><a href="checkout.php">Order and
+                                    Pay</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-12">
-                  <label for="inputAddress2" class="form-label" >Phone Number</label>
-                  <input type="text" class="form-control" name="phone"  placeholder="Enter Phone Number">
+
+                <div class="container">
+
+                    <span style="color:green;">
+                        <?php echo $success; ?>
+                    </span>
+
                 </div>
-             
-                <div class="col-12">
-                  <button type="submit" class="btn btn-success" name="submit" value="submit">Send</button>
+
+
+
+
+                <div class="container m-t-30">
+
+                    <div class="widget clearfix col-md-8">
+
+                        <div class="widget-body">
+
+                            <div class="media mt-4 ">
+                                <img src="images/mpesa.png" class="mr-3" height="75" />
+                                <div class="media-body">
+                                    <h6 class="mt-1">Enter Phone Number</h6>
+                                </div>
+                            </div>
+                            <div class="media mt-1 pl-1">
+                                <!--bs5 input-->
+
+                                <form class="row g-2" action="./stk_initiate.php" method="POST">
+
+                                    <div class="col-12">
+                                        <label for="inputAddress" class="form-label">Amount</label>
+                                        <input type="text" class="form-control" name="amount" readonly
+                                            placeholder=" <?php echo "Ksh " . $item_total; ?> ">
+
+                                        <!-- Add a hidden input field to store the amount -->
+                                        <input type="hidden" name="hidden_amount" value="<?php echo $item_total; ?>">
+                                    </div>
+
+                                    <div class="col-12  mt-1">
+                                        <label for="inputAddress2" class="form-label">Phone
+                                            Number</label>
+                                        <input type="text" class="form-control" name="phone"
+                                            placeholder="Enter Phone Number">
+                                    </div>
+
+                                    <div class="col-12  mt-1">
+                                        <button type="submit" class="btn btn-success" name="submit"
+                                            value="submit">Send</button>
+                                    </div>
+                                </form>
+                                <!--bs5 input-->
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
-              </form>
-              <!--bs5 input-->
-          </div>
+
+            </div>
         </div>
-      </div>
-    </div>
-    <script
-      type="text/javascript"
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
-    ></script>
-    <script type="text/javascript" src=""></script>
-    <script type="text/javascript" src=""></script>
-    <script type="text/Javascript"></script>
-  </body>
-</html>
+
+
+
+        <script>
+            function redirectToMpesa() {
+                window.location.href = 'mpesa-form.php';
+            }
+        </script>
+
+
+        <?php
+        include("includes/footer.php")
+            ?>
+        </div>
+        </div>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/tether.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/animsition.min.js"></script>
+        <script src="js/bootstrap-slider.min.js"></script>
+        <script src="js/jquery.isotope.min.js"></script>
+        <script src="js/headroom.js"></script>
+        <script src="js/foodpicky.min.js"></script>
+    </body>
+
+    </html>
+
+    <?php
+}
+?>

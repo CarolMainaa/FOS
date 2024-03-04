@@ -172,6 +172,10 @@ hr {
   border-radius: 2px;
 }
 
+.form-control[readonly]{
+  background-color: #fff;
+}
+
 .custom-select {
   line-height: 1;
 }

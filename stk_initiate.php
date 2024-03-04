@@ -1,18 +1,18 @@
 <?php
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
 
   date_default_timezone_set('Africa/Nairobi');
 
   # access token
-  $consumerKey = 'nk16Y74eSbTaGQgc9WF8j6FigApqOMWr'; //Fill with your app Consumer Key
-  $consumerSecret = '40fD1vRXCq90XFaU'; // Fill with your app Secret
+  $consumerKey = 'c2t7x131lKBK1RgNOkc84q6Txn1IIuKbL5g5PmJjaFFIaLBU'; //Fill with your app Consumer Key
+  $consumerSecret = 'i85jB0i8T6YDXjqBvi8ZUNGtp0CT99DDF4iu1zCcdDlJYCecJC3BFodaRVWxsKbA'; // Fill with your app Secret
 
   # define the variales
   # provide the following details, this part is found on your test credentials on the developer account
   $BusinessShortCode = '174379';
-  $Passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';  
-  
+  $Passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+
   /*
     This are your info, for
     $PartyA should be the ACTUAL clients phone number or your phone number, format 2547********
@@ -22,41 +22,41 @@ if(isset($_POST['submit'])){
     actually deducted from a clients side/your test phone number once the PIN has been entered to authorize the transaction. 
     for developer/test accounts, this money will be reversed automatically by midnight.
   */
-  
-   $PartyA = $_POST['phone']; // This is your phone number, 
-  $AccountReference = '2255';
+
+  $PartyA = $_POST['phone']; // This is your phone number, 
+  $AccountReference = 'Food System';
   $TransactionDesc = 'Test Payment';
-  $Amount = $_POST['amount'];
- 
+  $Amount = $_POST['hidden_amount'];
+
   # Get the timestamp, format YYYYmmddhms -> 20181004151020
-  $Timestamp = date('YmdHis');    
-  
+  $Timestamp = date('YmdHis');
+
   # Get the base64 encoded string -> $password. The passkey is the M-PESA Public Key
-  $Password = base64_encode($BusinessShortCode.$Passkey.$Timestamp);
+  $Password = base64_encode($BusinessShortCode . $Passkey . $Timestamp);
 
   # header for access token
   $headers = ['Content-Type:application/json; charset=utf8'];
 
-    # M-PESA endpoint urls
+  # M-PESA endpoint urls
   $access_token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
   $initiate_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
   # callback url
-  $CallBackURL = 'https://morning-basin-87523.herokuapp.com/callback_url.php';  
+  $CallBackURL = 'https://f9d6-197-232-32-215.ngrok-free.app//callback_url.php';
 
   $curl = curl_init($access_token_url);
   curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
   curl_setopt($curl, CURLOPT_HEADER, FALSE);
-  curl_setopt($curl, CURLOPT_USERPWD, $consumerKey.':'.$consumerSecret);
+  curl_setopt($curl, CURLOPT_USERPWD, $consumerKey . ':' . $consumerSecret);
   $result = curl_exec($curl);
   $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
   $result = json_decode($result);
-  $access_token = $result->access_token;  
+  $access_token = $result->access_token;
   curl_close($curl);
 
   # header for stk push
-  $stkheader = ['Content-Type:application/json','Authorization:Bearer '.$access_token];
+  $stkheader = ['Content-Type:application/json', 'Authorization:Bearer ' . $access_token];
 
   # initiating the transaction
   $curl = curl_init();
@@ -83,8 +83,22 @@ if(isset($_POST['submit'])){
   curl_setopt($curl, CURLOPT_POST, true);
   curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
   $curl_response = curl_exec($curl);
-  print_r($curl_response);
 
-  echo $curl_response;
-};
-?>
+  // Decode the JSON response for further processing
+  $response_data = json_decode($curl_response, true);
+
+
+  // Check if the request was successful
+  if (isset($response_data['ResponseCode']) && $response_data['ResponseCode'] == '0') {
+
+    echo "<script>window.location.replace('feedback.php');</script>";
+  } else {
+
+    // Payment failed, display error message
+    echo"<script>alert('Error, request could not be completed');</script>";
+    print_r($curl_response);
+
+  // Close the cURL session
+  curl_close($curl);
+}
+}
