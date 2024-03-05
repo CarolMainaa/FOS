@@ -134,7 +134,7 @@ if (empty($_SESSION["user_id"])) {
                                                             <tr>
                                                                 <td>Cart Subtotal</td>
                                                                 <td>
-                                                                    <?php echo "$" . $item_total; ?>
+                                                                    <?php echo "Ksh " . $item_total; ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -144,7 +144,7 @@ if (empty($_SESSION["user_id"])) {
                                                             <tr>
                                                                 <td class="text-color"><strong>Total</strong></td>
                                                                 <td class="text-color"><strong>
-                                                                        <?php echo "$" . $item_total; ?>
+                                                                        <?php echo "Ksh " . $item_total; ?>
                                                                     </strong></td>
                                                             </tr>
                                                         </tbody>

@@ -35,42 +35,21 @@ session_start();
                 <div class="navbar-header">
                     <a class="navbar-brand" href="dashboard.php">
 
-                         <img src="images/foslogo.png" alt="" height="35px" width="30px"/>
+                        <img src="images/foslogo.png" alt="" height="35px" width="30px" />
                     </a>
                 </div>
                 <div class="navbar-collapse">
 
                     <ul class="navbar-nav mr-auto mt-md-0">
 
-
-
-
                     </ul>
 
                     <ul class="navbar-nav my-lg-0">
 
-
-
-                        <li class="nav-item dropdown">
-
-                            <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Notifications</div>
-                                    </li>
-
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all
-                                                notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><img src="images/user-icn.png"
-                                    alt="user" class="profile-pic" /></a>
+                                aria-haspopup="true" aria-expanded="false"><img src="images/user-icn.png" alt="user"
+                                    class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
                                     <li><a href="LogOut.php"><i class="fa fa-power-off"></i> LogOut</a></li>
@@ -142,7 +121,7 @@ session_start();
 																					
 																								<td>' . $rows['title'] . '</td>
 																								<td>' . $rows['slogan'] . '</td>
-																								<td>$' . $rows['price'] . '</td>
+																								<td>Ksh ' . $rows['price'] . '</td>
 																								
 																								
 																								<td><div class="col-md-3 col-lg-8 m-b-10">
