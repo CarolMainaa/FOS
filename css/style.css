@@ -1558,6 +1558,11 @@ footer .box li a:hover {
  
 }
 
+.footer .credit p{
+  text-align: center;
+  padding-top: 25px;
+}
+
 @media (min-width: 320px) and (max-width: 768px) {
   .footer-logo-block {
     margin-bottom: 25px;
@@ -2483,31 +2488,51 @@ a[aria-expanded="false"] .fa-angle-down {
   }
 }
 
-/*! =========================================================
-* bootstrap-slider.js
-*
-* Maintainers:
-*		Kyle Kemp
-*			- Twitter: @seiyria
-*			- Github:  seiyria
-*		Rohit Kalkur
-*			- Twitter: @Rovolutionary
-*			- Github:  rovolution
-*
-* =========================================================
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-* ========================================================= */
+
+
+.indent-small {
+  margin-left: 5px;
+}
+.form-group.internal {
+  margin-bottom: 0;
+}
+.dialog-panel {
+  margin: 10px;
+}
+.datepicker-dropdown {
+  z-index: 200 !important;
+}
+.panel-body {
+  background: #e5e5e5;
+  /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #e5e5e5), color-stop(100%, #ffffff));
+  /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #e5e5e5 0%, #ffffff 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#ffffff', GradientType=1);
+  font: 600 15px "Open Sans", Arial, sans-serif;
+}
+label.control-label {
+  font-weight: 600;
+  color: #777;
+}
+
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	
+}
+
 
 .slider {
   display: inline-block;

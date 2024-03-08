@@ -69,6 +69,20 @@
     error_reporting(0);
     session_start();
     if (isset($_POST['submit'])) {
+
+      $errors = array(); // Initialize an array to store errors
+
+      // Validate username: only letters, numbers, and underscores allowed
+      if (!preg_match("/^[a-zA-Z0-9_]*$/", $_POST['username'])) {
+          $errors[] = "Invalid characters in the username. Only letters, numbers, and underscores are allowed.";
+      }
+  
+      if (
+        empty($_POST['username']) ||
+        empty($_POST['password'])
+    ) {
+        $errors[] = "Username and password are required fields.";
+    } else {
       $username = $_POST['username'];
       $password = $_POST['password'];
 
@@ -84,9 +98,15 @@
           $message = "Invalid Username or Password!";
         }
       }
-
-
     }
+
+    if (!empty($errors)) {
+      $allErrors = implode("\\n", $errors);
+      echo "<script>alert('Errors:\\n" . $allErrors . "');</script>";
+  }
+}
+?>
+
     ?>
 
 
@@ -99,12 +119,12 @@
           </div>
           <div class="form">
             <h2>Login to your account</h2>
-            <span style="color:red;">
+            <!-- <span style="color:red;">
               <?php echo $message; ?>
             </span>
             <span style="color:green;">
               <?php echo $success; ?>
-            </span>
+            </span> -->
             <form action="" method="post">
               <input type="text" placeholder="Username" name="username" />
               <input type="password" placeholder="Password" name="password" />

@@ -11,11 +11,12 @@
                     <div class="col-sm-3">
                     <li><a href="index.php"> <i class="bi bi-arrow-right"></i>Home</a></li> 
                     <li> <a href="menu.php"> <i class="bi bi-arrow-right"></i>Menu</a></li> 
+
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                     <li><a href="restaurants.php"> <i class="bi bi-arrow-right"></i>Restaurants</a></li> 
-                    <li><a href="restaurants.php"> <i class="bi bi-arrow-right"></i>Orders</a></li> 
+                    <li><a href="your_orders.php"> <i class="bi bi-arrow-right"></i>Orders</a></li> 
                     </div>
                 </div>
 
@@ -46,8 +47,8 @@
 
             </div>
                 
-            <div class="credit" style=" text-align: center;">
-                <p>Copyright &copy; 2023. All Rights Reserved.
+            <div class="credit">
+                <p>Copyright &copy; 2024. All Rights Reserved.
             </div>
         </div>
 

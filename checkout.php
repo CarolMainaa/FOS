@@ -6,22 +6,15 @@ include_once 'product-action.php';
 error_reporting(0);
 session_start();
 
-
 function function_alert()
 {
-
 
     echo "<script>alert('Thank you. Your Order has been placed!');</script>";
     echo "<script>window.location.replace('your_orders.php');</script>";
 }
 
-
-
-
-
 if (empty($_SESSION["user_id"])) {
     header('location:login.php');
-
 } else {
 
 
@@ -29,8 +22,25 @@ if (empty($_SESSION["user_id"])) {
 
         $item_total += ($item["price"] * $item["quantity"]);
 
-    }
+        if ($_POST['submit']) {
 
+            $SQL = "insert into users_orders(u_id,title,quantity,price) values('" . $_SESSION["user_id"] . "','" . $item["title"] . "','" . $item["quantity"] . "','" . $item["price"] . "')";
+
+            mysqli_query($db, $SQL);
+
+
+            unset($_SESSION["cart_item"]);
+            unset($item["title"]);
+            unset($item["quantity"]);
+            unset($item["price"]);
+            $success = "Thank you. Your order has been placed!";
+
+            function_alert();
+
+
+
+        }
+    }
     ?>
 
 
@@ -176,10 +186,10 @@ if (empty($_SESSION["user_id"])) {
                                                     </li>
 
                                                 </ul>
-                                                <!-- <p class="text-xs-center"> <input type="submit"
+                                                <p class="text-xs-center"> <input type="submit"
                                                         onclick="return confirm('Do you want to confirm the order?');"
                                                         name="submit" class="btn btn-success btn-block" value="Order Now">
-                                                </p> -->
+                                                </p>
                                             </div>
                                 </form>
                             </div>
@@ -190,18 +200,17 @@ if (empty($_SESSION["user_id"])) {
             </form>
         </div>
 
-        <script>
-            function redirectToMpesa() {
-                window.location.href = 'mpesa-form.php';
-            }
-        </script>
-
-
         <?php
         include("includes/footer.php")
             ?>
         </div>
         </div>
+
+        <script>
+            function redirectToMpesa() {
+                window.location.href = 'mpesa-form.php';
+            }
+        </script>
 
         <script src="js/jquery.min.js"></script>
         <script src="js/tether.min.js"></script>

@@ -5,8 +5,8 @@ if (isset($_POST['submit'])) {
   date_default_timezone_set('Africa/Nairobi');
 
   # access token
-  $consumerKey = 'c2t7x131lKBK1RgNOkc84q6Txn1IIuKbL5g5PmJjaFFIaLBU'; //Fill with your app Consumer Key
-  $consumerSecret = 'i85jB0i8T6YDXjqBvi8ZUNGtp0CT99DDF4iu1zCcdDlJYCecJC3BFodaRVWxsKbA'; // Fill with your app Secret
+  $consumerKey = 'Ht8qNeiNSo31uTxDOwQxl9RaV6TOfNM21kDhW4kuZK4LUYvm'; //Fill with your app Consumer Key
+  $consumerSecret = 'mmu0TJ7rKKdU1c67NoC55AY5OSrKMubjHIIObezk2ag4mkxx0zGIIWZIgG6X6EIe'; // Fill with your app Secret
 
   # define the variales
   # provide the following details, this part is found on your test credentials on the developer account
@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
   $initiate_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
   # callback url
-  $CallBackURL = 'https://f9d6-197-232-32-215.ngrok-free.app//callback_url.php';
+  $CallBackURL = 'https://029a-102-222-145-125.ngrok-free.app/FOS/callback_url.php';
 
   $curl = curl_init($access_token_url);
   curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -91,7 +91,8 @@ if (isset($_POST['submit'])) {
   // Check if the request was successful
   if (isset($response_data['ResponseCode']) && $response_data['ResponseCode'] == '0') {
 
-    echo "<script>window.location.replace('feedback.php');</script>";
+    echo"<script>alert('Sucess, request accepted for processing');</script>";
+
   } else {
 
     // Payment failed, display error message

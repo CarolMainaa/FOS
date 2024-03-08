@@ -174,7 +174,7 @@ if (empty($_SESSION["adm_id"])) {
 
                                                     echo $rws; ?>
                                                 </h2>
-                                                <p class="m-b-0">Restro Categories</p>
+                                                <p class="m-b-0">Restaurant Categories</p>
                                             </div>
                                         </div>
                                     </div>
@@ -254,7 +254,7 @@ if (empty($_SESSION["adm_id"])) {
                                                     $result = mysqli_query($db, 'SELECT SUM(price) AS value_sum FROM users_orders WHERE status = "closed"');
                                                     $row = mysqli_fetch_assoc($result);
                                                     $sum = $row['value_sum'];
-                                                    echo $sum;
+                                                    echo "Ksh $sum";
                                                     ?>
                                                 </h2>
                                                 <p class="m-b-0">Total Earnings</p>

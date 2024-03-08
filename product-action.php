@@ -32,9 +32,12 @@ if (!empty($_GET["action"])) {
 
 		case "remove":
 			if (!empty($_SESSION["cart_item"])) {
+				$productId = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : '';
+		
 				foreach ($_SESSION["cart_item"] as $k => $v) {
-					if ($productId == $v['d_id'])
+					if ($productId == $v['d_id']) {
 						unset($_SESSION["cart_item"][$k]);
+					}
 				}
 			}
 			break;

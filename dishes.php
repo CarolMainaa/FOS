@@ -5,8 +5,19 @@ include("includes/connect.php");
 error_reporting(0);
 session_start();
 
-include_once 'product-action.php'; 
+include 'product-action.php';
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
+
+    // Validate the quantity
+    if ($quantity < 1 || $quantity > 10) {
+        echo '<div class="error-message">Please enter a valid quantity between 1 and 10.</div>';
+    } else {
+        include_once 'product-action.php'; 
+}
+}
 ?>
 
 
@@ -226,7 +237,7 @@ $item_total += ($item["price"]*$item["quantity"]);
                                
                                         <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info"> 
 										<span class="price pull-left" >Ksh <?php echo $product['price']; ?></span>
-										  <input class="b-r-0" type="text" name="quantity"  style="margin-left:20px;" value="1" size="2" />
+										  <input class="b-r-0" type="number" name="quantity"  style="margin-left:20px;" value="1" size="2" min="1" max="10"/>
 										  <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
 										</div>
 										</form>

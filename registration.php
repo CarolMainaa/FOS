@@ -5,50 +5,70 @@
 session_start();
 error_reporting(0);
 include("includes/connect.php");
+
 if (isset($_POST['submit'])) {
-   if (
-      empty($_POST['firstname']) ||
-      empty($_POST['lastname']) ||
-      empty($_POST['email']) ||
-      empty($_POST['phone']) ||
-      empty($_POST['password']) ||
-      empty($_POST['cpassword']) ||
-      empty($_POST['cpassword'])
-   ) {
-      $message = "All fields must be Required!";
-   } else {
+    $errors = array(); // Initialize an array to store errors
 
-      $check_username = mysqli_query($db, "SELECT username FROM users where username = '" . $_POST['username'] . "' ");
-      $check_email = mysqli_query($db, "SELECT email FROM users where email = '" . $_POST['email'] . "' ");
+    if (
+        empty($_POST['firstname']) ||
+        empty($_POST['lastname']) ||
+        empty($_POST['email']) ||
+        empty($_POST['phone']) ||
+        empty($_POST['password']) ||
+        empty($_POST['cpassword']) ||
+        empty($_POST['cpassword'])
+    ) {
+        $errors[] = "All fields must be filled";
+    } else {
 
+        $check_username = mysqli_query($db, "SELECT username FROM users where username = '" . $_POST['username'] . "' ");
+        $check_email = mysqli_query($db, "SELECT email FROM users where email = '" . $_POST['email'] . "' ");
 
+        // Validate username: only letters and spaces allowed
+        if (!preg_match("/^[a-zA-Z ]*$/", $_POST['username'])) {
+         $errors[] = "Only letters and spaces allowed in the username";
+     }
 
-      if ($_POST['password'] != $_POST['cpassword']) {
+     // Validate names: only letters and spaces allowed
+     if (!preg_match("/^[a-zA-Z ]*$/", $_POST['firstname'])) {
+         $errors[] = "Invalid characters in the first name";
+     }
+     if (!preg_match("/^[a-zA-Z ]*$/", $_POST['lastname'])) {
+         $errors[] = "Invalid characters in the last name";
+     }
 
-         echo "<script>alert('Password not match');</script>";
-      } elseif (strlen($_POST['password']) < 6) {
-         echo "<script>alert('Password Must be >=6');</script>";
-      } elseif (strlen($_POST['phone']) < 10) {
-         echo "<script>alert('Invalid phone number!');</script>";
-      } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-         echo "<script>alert('Invalid email address please type a valid email!');</script>";
-      } elseif (mysqli_num_rows($check_username) > 0) {
-         echo "<script>alert('Username Already exists!');</script>";
-      } elseif (mysqli_num_rows($check_email) > 0) {
-         echo "<script>alert('Email Already exists!');</script>";
-      } else {
+        if ($_POST['password'] != $_POST['cpassword']) {
+            $errors[] = "Password not match";
+        }
+        if (strlen($_POST['password']) < 6) {
+            $errors[] = "Password must be >= 6 characters";
+        }
+        if (strlen($_POST['phone']) < 10) {
+            $errors[] = "Invalid phone number!";
+        }
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid email address. Please type a valid email!";
+        }
+        if (mysqli_num_rows($check_username) > 0) {
+            $errors[] = "Username already exists!";
+        }
+        if (mysqli_num_rows($check_email) > 0) {
+            $errors[] = "Email already exists!";
+        }
 
+        if (empty($errors)) {
+            $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
+            mysqli_query($db, $mql);
+            header("refresh:0.1;url=login.php");
+        }
+    }
 
-         $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
-         mysqli_query($db, $mql);
-
-         header("refresh:0.1;url=login.php");
-      }
-   }
-
+    // Display errors in a single alert
+    if (!empty($errors)) {
+        $allErrors = implode("\\n", $errors);
+        echo "<script>alert('Errors:\\n" . $allErrors . "');</script>";
+    }
 }
-
-
 ?>
 
 

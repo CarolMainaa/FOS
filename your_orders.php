@@ -26,53 +26,7 @@ else
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-<style type="text/css" rel="stylesheet">
 
-
-.indent-small {
-  margin-left: 5px;
-}
-.form-group.internal {
-  margin-bottom: 0;
-}
-.dialog-panel {
-  margin: 10px;
-}
-.datepicker-dropdown {
-  z-index: 200 !important;
-}
-.panel-body {
-  background: #e5e5e5;
-  /* Old browsers */
-  background: -moz-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #e5e5e5), color-stop(100%, #ffffff));
-  /* Chrome,Safari4+ */
-  background: -webkit-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-  /* Opera 12+ */
-  background: -ms-radial-gradient(center, ellipse cover, #e5e5e5 0%, #ffffff 100%);
-  /* IE10+ */
-  background: radial-gradient(ellipse at center, #e5e5e5 0%, #ffffff 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#ffffff', GradientType=1);
-  font: 600 15px "Open Sans", Arial, sans-serif;
-}
-label.control-label {
-  font-weight: 600;
-  color: #777;
-}
-
-
-@media 
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-	
-}
-
-	</style>
 
 	</head>
 
@@ -171,7 +125,7 @@ only screen and (max-width: 760px),
 												<tr>	
 														 <td data-column="Item"> <?php echo $row['title']; ?></td>
 														  <td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
-														  <td data-column="price"><?php echo $row['price']; ?>Ksh</td>
+														  <td data-column="price">Ksh <?php echo $row['price']; ?></td>
 														   <td data-column="status"> 
 														   <?php 
 																			$status=$row['status'];
@@ -200,16 +154,25 @@ only screen and (max-width: 760px),
 																			 <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i> Cancelled</button>
 																			<?php 
 																			} 
-																			?>
-														   
-														   
-														   
-														   
-														   
-														   
+																			?>									   
 														   </td>
-														  <td data-column="Date"> <?php echo $row['date']; ?></td>
-														   <td data-column="Action"> <a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+                                <td data-column="Date"> <?php echo $row['date']; ?></td>
+                                <td data-column="Action">
+                                    <?php 
+                                        $status = $row['status'];
+                                        
+                                          if ($status=="in process") {
+                                    ?>
+                                        <button class="btn btn-danger btn-flat btn-addon btn-xs m-b-10" disabled ><i class="fa fa-trash-o" style="font-size:16px"></i></button>
+                                    <?php 
+                                        }  else {
+                                          ?>
+                                          <a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');"
+                                             class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i>
+                                            </a> 
+                                          <?php 
+                                        }        
+                                    ?>
 															</td>
 														 
 												</tr>
